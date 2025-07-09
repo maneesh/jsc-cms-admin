@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState  } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -9,9 +9,6 @@ import {
   GridIcon,
   HorizontaLDots,
 } from "../icons/index";
-import { FaHome, FaChalkboardTeacher, FaPuzzlePiece } from "react-icons/fa";
-import { MdContactMail } from "react-icons/md";
-import { BiInfoCircle } from "react-icons/bi";
 import logoImg from "../../public/images/logo_img.jpg";
 
 const jschampsSubItems = [
