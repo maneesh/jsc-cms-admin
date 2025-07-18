@@ -1,5 +1,5 @@
 "use client";
-import React, { useState  } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -11,20 +11,23 @@ import {
 } from "../icons/index";
 import logoImg from "../../public/images/logo_img.jpg";
 
+// React Icons
+import { FiHome, FiInfo, FiHelpCircle, FiBookOpen, FiPhone } from "react-icons/fi";
+
 const jschampsSubItems = [
-  { name: "Home", path: "/jschamps-home" },
-  { name: "About", path: "/jschamps-about" },
-  { name: "How It Works", path: "/jschamps-how-it-works" },
-  { name: "Training", path: "/jschamps-training" },
-  { name: "Contact Us", path: "/jschamps-contact-us" },
+  { name: "Home", path: "/jschamps-home", icon: <FiHome /> },
+  { name: "About", path: "/jschamps-about", icon: <FiInfo /> },
+  { name: "How It Works", path: "/jschamps-how-it-works", icon: <FiHelpCircle /> },
+  { name: "Training", path: "/jschamps-training", icon: <FiBookOpen /> },
+  { name: "Contact Us", path: "/jschamps-contact-us", icon: <FiPhone /> },
 ];
 
 const trueopsSubItems = [
-  { name: "Home", path: "/trueops-home" },
-  { name: "About", path: "/trueops-about" },
-  { name: "Services", path: "/trueops-services" },
-  { name: "Training", path: "/trueops-training" },
-  { name: "Contact Us", path: "/trueops-contact-us" },
+  { name: "Home", path: "/trueops-home", icon: <FiHome /> },
+  { name: "About", path: "/trueops-about", icon: <FiInfo /> },
+  { name: "Services", path: "/trueops-services", icon: <FiHelpCircle /> },
+  { name: "Training", path: "/trueops-training", icon: <FiBookOpen /> },
+  { name: "Contact Us", path: "/trueops-contact-us", icon: <FiPhone /> },
 ];
 
 const AppSidebar: React.FC = () => {
@@ -40,19 +43,22 @@ const AppSidebar: React.FC = () => {
     setOpenSite((prev) => (prev === site ? null : site));
   };
 
-  const renderSubMenu = (items: { name: string; path: string }[]) => (
+  const renderSubMenu = (
+    items: { name: string; path: string; icon: React.ReactNode }[]
+  ) => (
     <ul className="mt-2 ml-6 space-y-1">
       {items.map((item) => (
         <li key={item.name}>
           <Link
             href={item.path}
-            className={`menu-dropdown-item ${
+            className={`menu-dropdown-item flex items-center gap-2 ${
               isActive(item.path)
                 ? "menu-dropdown-item-active"
                 : "menu-dropdown-item-inactive"
             }`}
           >
-            {item.name}
+            <span className="text-base">{item.icon}</span>
+            <span>{item.name}</span>
           </Link>
         </li>
       ))}
@@ -67,11 +73,21 @@ const AppSidebar: React.FC = () => {
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className={`py-8 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"}`}>
+      <div
+        className={`py-8 flex ${
+          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+        }`}
+      >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <Image className="dark:hidden" src={logoImg} alt="Logo" width={150} height={40} />
+              <Image
+                className="dark:hidden"
+                src={logoImg}
+                alt="Logo"
+                width={150}
+                height={40}
+              />
               <Image
                 className="hidden dark:block"
                 src="/images/logo/logo-dark.svg"
@@ -81,7 +97,12 @@ const AppSidebar: React.FC = () => {
               />
             </>
           ) : (
-            <Image src="/images/logo/logo-icon.svg" alt="Logo" width={32} height={32} />
+            <Image
+              src="/images/logo/logo-icon.svg"
+              alt="Logo"
+              width={32}
+              height={32}
+            />
           )}
         </Link>
       </div>
@@ -92,10 +113,16 @@ const AppSidebar: React.FC = () => {
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
                 }`}
               >
-                {isExpanded || isHovered || isMobileOpen ? "Menu" : <HorizontaLDots />}
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Menu"
+                ) : (
+                  <HorizontaLDots />
+                )}
               </h2>
 
               {/* CMS Dropdown */}
@@ -107,7 +134,9 @@ const AppSidebar: React.FC = () => {
                       cmsOpen ? "menu-item-active" : "menu-item-inactive"
                     }`}
                   >
-                    <span className="menu-item-icon-inactive"><GridIcon /></span>
+                    <span className="menu-item-icon-inactive">
+                      <GridIcon />
+                    </span>
                     {(isExpanded || isHovered || isMobileOpen) && (
                       <>
                         <span className="menu-item-text">CMS</span>
@@ -128,22 +157,27 @@ const AppSidebar: React.FC = () => {
                       <button
                         onClick={() => handleSiteToggle("jschamps")}
                         className={`menu-item group ${
-                          openSite === "jschamps" ? "menu-item-active" : "menu-item-inactive"
+                          openSite === "jschamps"
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
                         }`}
                       >
-                        <span className="menu-item-icon-inactive">{/* dot or empty */}</span>
+                        <span className="menu-item-icon-inactive" />
                         {(isExpanded || isHovered || isMobileOpen) && (
                           <>
                             <span className="menu-item-text">JSChamps</span>
                             <ChevronDownIcon
                               className={`ml-auto w-4 h-4 transition-transform duration-200 ${
-                                openSite === "jschamps" ? "rotate-180 text-brand-500" : ""
+                                openSite === "jschamps"
+                                  ? "rotate-180 text-brand-500"
+                                  : ""
                               }`}
                             />
                           </>
                         )}
                       </button>
-                      {openSite === "jschamps" && renderSubMenu(jschampsSubItems)}
+                      {openSite === "jschamps" &&
+                        renderSubMenu(jschampsSubItems)}
                     </li>
 
                     {/* TrueOps */}
@@ -151,22 +185,27 @@ const AppSidebar: React.FC = () => {
                       <button
                         onClick={() => handleSiteToggle("trueops")}
                         className={`menu-item group ${
-                          openSite === "trueops" ? "menu-item-active" : "menu-item-inactive"
+                          openSite === "trueops"
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
                         }`}
                       >
-                        <span className="menu-item-icon-inactive">{/* dot or empty */}</span>
+                        <span className="menu-item-icon-inactive" />
                         {(isExpanded || isHovered || isMobileOpen) && (
                           <>
                             <span className="menu-item-text">TrueOps</span>
                             <ChevronDownIcon
                               className={`ml-auto w-4 h-4 transition-transform duration-200 ${
-                                openSite === "trueops" ? "rotate-180 text-brand-500" : ""
+                                openSite === "trueops"
+                                  ? "rotate-180 text-brand-500"
+                                  : ""
                               }`}
                             />
                           </>
                         )}
                       </button>
-                      {openSite === "trueops" && renderSubMenu(trueopsSubItems)}
+                      {openSite === "trueops" &&
+                        renderSubMenu(trueopsSubItems)}
                     </li>
                   </ul>
                 )}
